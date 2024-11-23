@@ -4,17 +4,13 @@ import { IsNotEmpty } from 'class-validator'
 export class CreateUserDTO {
   @ApiProperty({ type: 'string' })
   @IsNotEmpty()
-  first_name: string
+  username: string
 
   @ApiProperty({ type: 'string' })
   @IsNotEmpty()
-  last_name: string
+  password: string
 
-  @ApiProperty({ type: 'string' })
+  @ApiProperty({ type: 'number' })
   @IsNotEmpty()
-  user_name: number
-
-  @ApiProperty({ type: 'string' })
-  @IsNotEmpty()
-  email: string
+  houseId: number
 }

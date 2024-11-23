@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { Users } from 'src/models/users.entity'
+import { User } from 'src/models/user.entity'
 import { BaseServiceAbstract } from 'src/services/base/base.abstract.service'
 import { UsersRepositoryInterface } from './interfaces/users.interface'
 import { CreateUserDTO } from './dto/create-user.dto'
 import { DeepPartial } from 'typeorm'
 
 @Injectable()
-export class UsersService extends BaseServiceAbstract<Users> {
+export class UsersService extends BaseServiceAbstract<User> {
   constructor(
     @Inject('UsersRepositoryInterface')
     private readonly users_repository: UsersRepositoryInterface,
@@ -14,7 +14,7 @@ export class UsersService extends BaseServiceAbstract<Users> {
     super(users_repository)
   }
 
-  async createNewUser(user: DeepPartial<Users>): Promise<Users> {
-    return await this.users_repository.create(user)
+  async createNewUser(user: CreateUserDTO): Promise<User> {
+    return await this.users_repository.save(user)
   }
 }
