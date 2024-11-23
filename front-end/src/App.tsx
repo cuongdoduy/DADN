@@ -1,27 +1,22 @@
-import { Routes, Route, Link } from "react-router-dom";
-import PageA from "./pages/PageA";
-import PageB from "./pages/PageB";
-import { Button } from "@material-tailwind/react";
+import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import { DeviceProvider } from "./contexts/DeviceContext";
 
 const App = () => {
   return (
-    <div>
-      <nav className="bg-gray-800">
-        <div className="container mx-auto p-2">
-          <Link to="/">
-            <Button className="bg-primary">Button</Button>;
-          </Link>
-        </div>
-      </nav>
-
-      <div className="container mx-auto p-2 h-full">
+    <AuthProvider>
+      <DeviceProvider>
         <Routes>
-          <Route index element={<PageA />}></Route>
-          <Route path="/create" element={<PageB />}></Route>
-          <Route path="/edit/:id" element={<PageA />}></Route>
+          <Route element={<PrivateRoute />}>
+            <Route index element={<HomePage />}></Route>
+          </Route>
+          <Route path="/login" element={<LoginPage />}></Route>
         </Routes>
-      </div>
-    </div>
+      </DeviceProvider>
+    </AuthProvider>
   );
 };
 

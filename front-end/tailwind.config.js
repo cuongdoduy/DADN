@@ -78,7 +78,7 @@ module.exports = withMT({
         ],
       },
       colors: {
-        primary: "#038642",
+        primary: "#2A9DF4",
         secondary: "#FFF5CC",
         footerbanner: "#E6E6E6",
         neutral_2: "#FAFAFA",
