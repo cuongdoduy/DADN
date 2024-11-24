@@ -25,15 +25,15 @@ const NavbarCustom = () => {
   }, []);
 
   const navList = (
-    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 mr-8">
       <Typography
         as="li"
         variant="small"
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
-          Pages
+        <a href="scenarios" className="flex items-center">
+          Scenarios
         </a>
       </Typography>
       <Typography
@@ -42,28 +42,8 @@ const NavbarCustom = () => {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Blocks
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Docs
+        <a href="rules" className="flex items-center">
+          Rules
         </a>
       </Typography>
     </ul>
@@ -179,7 +159,7 @@ const NavbarCustom = () => {
           <div className="flex items-center justify-start gap-x-2 flex-1">
             <Typography
               as="a"
-              href="#"
+              href="/"
               className="mr-4 cursor-pointer py-1.5 font-medium"
             >
               <img src="/icon.svg" alt="logo" className="w-[223px] h-[41px]" />
@@ -220,6 +200,7 @@ const NavbarCustom = () => {
               </div>
             </form>
           </div>
+          {navList}
           {emailProfile && (
             <ProfileMenu avatar={emailProfile?.picture} handleLogout={logOut} />
           )}

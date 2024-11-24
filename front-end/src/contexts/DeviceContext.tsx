@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { createContext, useState, ReactNode } from "react";
 
 export interface IDeviceProps {
@@ -12,9 +13,9 @@ export interface IDeviceProps {
 
 interface IDeviceContext {
   devices: IDeviceProps[];
-  updateDeviceValue: (id: string, value: any) => void;
-  updateDeviceStatus: (id: string, status: "ON" | "OFF") => void;
-  updateDevicePassword: (id: string, password: string) => void;
+  updateDeviceValue: (id: string, value: any) => Promise<void>;
+  updateDeviceStatus: (id: string, status: "ON" | "OFF") => Promise<void>;
+  updateDevicePassword: (id: string, password: string) => Promise<void>;
 }
 
 export const DeviceContext = createContext<IDeviceContext | undefined>(
@@ -58,7 +59,7 @@ export const DeviceProvider: React.FC<IDeviceProviderProps> = ({
       name: "Door",
       status: "ON",
       value: "0",
-      password: "1234",
+      password: "123456",
       room_id: "1",
       type: "door",
     },
@@ -88,6 +89,37 @@ export const DeviceProvider: React.FC<IDeviceProviderProps> = ({
     },
   ]);
 
+  const handlePublistChangePassword = async (device: IDeviceProps) => {
+    const res = await axios.post("http://localhost:5000/api/client_to_server", {
+      command_id: "CMD00010",
+      command_name: "CONTROL_DEVICE",
+      device_type: "DOOR_PASS",
+      node_id: device.room_id === "1" ? "CentralNode" : "Node1",
+      value: device.password,
+    });
+    console.log(res.data);
+    updateDevice(device);
+  }
+
+  const handlePublistToAws = async (device: IDeviceProps) => {
+    const res = await axios.post("http://localhost:5000/api/client_to_server", {
+      command_id: "CMD00010",
+      command_name: "CONTROL_DEVICE",
+      device_type:
+        device.type === "relay"
+          ? "RELAY"
+          : device.type === "door"
+          ? "DOOR"
+          : device.type === "light"
+          ? "LED_RGB"
+          : "FAN",
+      node_id: device.room_id === "1" ? "CentralNode" : "Node1",
+      value: device.value,
+    });
+    console.log(res.data);
+    updateDevice(device);
+  };
+
   const updateDevice = (device: IDeviceProps) => {
     setDevices((prev) =>
       prev.map((prevDevice) =>
@@ -96,35 +128,35 @@ export const DeviceProvider: React.FC<IDeviceProviderProps> = ({
     );
   };
 
-  const updateDeviceValue = (id: string, value: any) => {
+  const updateDeviceValue = async (id: string, value: any) => {
     const device = devices.find((device) => device.id === id);
     if (!device) return;
-    updateDevice({ ...device, value });
+    await handlePublistToAws({ ...device, value });
   };
 
-  const updateDevicePassword = (id: string, password: string) => {
+  const updateDevicePassword = async (id: string, password: string) => {
     const device = devices.find((device) => device.id === id);
     if (!device) return;
-    updateDevice({ ...device, password });
+    await handlePublistChangePassword({ ...device, password });
   };
 
-  const updateDeviceStatus = (id: string, status: "ON" | "OFF") => {
+  const updateDeviceStatus = async (id: string, status: "ON" | "OFF") => {
     const device = devices.find((device) => device.id === id);
     if (!device) return;
     if (device.type === "relay" || device.type === "door") {
-      updateDevice({
+      await handlePublistToAws({
         ...device,
         value: status === "ON" ? "1" : "0",
         status,
       });
     } else if (device.type === "light") {
-      updateDevice({
+      await handlePublistToAws({
         ...device,
         value: status === "ON" ? "FFFFFF" : "000000",
         status,
       });
     } else if (device.type === "fan") {
-      updateDevice({
+      await handlePublistToAws({
         ...device,
         value: status === "ON" ? "50" : "0",
         status,
