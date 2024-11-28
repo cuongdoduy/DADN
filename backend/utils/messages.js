@@ -13,6 +13,8 @@ const MESSAGES = {
     INVALID_RESPONSE_FORMAT: "Invalid response format received.",
     LISTEN_FAILED: (error) => `Failed to listen for response: ${error}`,
     UNSUBSCRIBE_FAILED: (error) => `Failed to unsubscribe from topic: ${error}`,
+    FETCH_FAILED: (error) => `Failed to fetch data: ${error}`,
+    ERROR_PARSING_PAYLOAD: (error) => "Error parsing MQTT payload: " + error,
   },
   SUCCESS: {
     CONNECT_SUCCESS: "Connected to AWS IoT successfully",
@@ -21,6 +23,14 @@ const MESSAGES = {
     SUBSCRIBE_SUCCESS: (topic) => `Subscribed to topic: ${topic}`,
     DISCONNECTING: "Disconnecting...",
     RECEIVE_RESPONSE: (topic) => "Received data from topic: " + topic,
+    FETCH_SUCCESS: "Data fetched successfully",
+    WEBSOCKET_SERVER_RUNNING: (port) => `WebSocket server is running on ws://localhost:${port}`,
+    FRONTEND_CONNECTED: "Frontend connected via WebSocket",
+    FRONTEND_DISCONNECTED: "Frontend disconnected",
+    RECEIVE_MESSAGE: (topic) => `Received message on topic ${topic}: `,
+    SEND_SUCCESS: (data) => "Data sent successfully to client: " + data,
+    UPDATE_SUCCESS: "Updated successfully",
+
   },
   VALIDATION: {
     PUBLISH: "Request body must contain topic, node_id, value_type, and value.",

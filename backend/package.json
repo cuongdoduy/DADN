@@ -15,7 +15,9 @@
     "aws-iot-device-sdk-v2": "^1.21.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "mqtt": "^5.10.2"
+    "mqtt": "^5.10.2",
+    "mysql2": "^3.11.4",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
