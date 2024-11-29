@@ -134,16 +134,16 @@ class IoTController {
    * Xử lý lệnh SCENARIO
    */
   static async buildScenario(type, value, command_name) {
-    let scenario_id = await iotService.createScenario(command_name, value);
     if (type === "ADD") {
       if (!Array.isArray(value) || value.length === 0) {
         throw new Error(MESSAGES.VALIDATION.SCENARIO);
       }
+      let scenario_id = await iotService.createScenario(command_name, value);
       return { type, scenario_id, value };
     }
 
     if (type === "RUN" || type === "DELETE") {
-      return { type, scenario_id, value: "" };
+      return { type, value: "" };
     }
 
     throw new Error(MESSAGES.VALIDATION.INVALID_TYPE);
