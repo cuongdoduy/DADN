@@ -79,6 +79,10 @@ class IoTService {
                 this.processUpdateDevice(parsedPayload);
               }
             }
+
+            if (topic == topics.value) {
+              this.processUpdateDevice(parsedPayload);
+            }
           }
         } catch (error) {
           logger.error(ERRORS.ERROR_PARSING_PAYLOAD(error));
